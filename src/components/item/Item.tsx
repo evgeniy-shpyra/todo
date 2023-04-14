@@ -2,7 +2,13 @@ import React from "react"
 import styles from "./Item.module.scss"
 import RowContainer from "../rowContainer/RowContainer"
 import Switch from "../switch/Switch"
-import Text from "../input/Input"
+import Input from "../input/Input"
+
+const idValidation = (value: string) => {
+    if (value.length > 3) return false
+    if (Number.isNaN(Number(value))) return false
+    return true
+}
 
 interface ItemProps {
     id: number
@@ -12,6 +18,14 @@ interface ItemProps {
 }
 
 const Item: React.FC<ItemProps> = ({ id, product, name, stats }) => {
+    const onChangeRowDataHandler = (data: {
+        type: "product" | "id" | "name"
+        value: string
+        rowId: number
+    }) => {
+        console.log(data)
+    }
+
     return (
         <li className={styles.item}>
             <RowContainer>
@@ -19,16 +33,31 @@ const Item: React.FC<ItemProps> = ({ id, product, name, stats }) => {
                     <Switch />
                 </div>
                 <div className={styles.grayText}>
-                    <Text color='gray' type='product' initialValue={product} />
-                </div>
-                <div className={styles.grayText}>
-                    <Text
+                    <Input
+                        rowId={id}
                         color='gray'
                         type='product'
-                        initialValue={String(id)}
+                        initialValue={product}
+                        onChange={onChangeRowDataHandler}
                     />
                 </div>
-                <Text color='black' type='product' initialValue={name} />
+                <div className={styles.grayText}>
+                    <Input
+                        rowId={id}
+                        color='gray'
+                        type='id'
+                        validation={idValidation}
+                        initialValue={String(id)}
+                        onChange={onChangeRowDataHandler}
+                    />
+                </div>
+                <Input
+                    rowId={id}
+                    color='black'
+                    type='name'
+                    initialValue={name}
+                    onChange={onChangeRowDataHandler}
+                />
             </RowContainer>
         </li>
     )

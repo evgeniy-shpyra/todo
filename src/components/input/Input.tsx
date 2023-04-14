@@ -4,25 +4,46 @@ import classnames from "classnames"
 
 interface InputProps {
     type: "product" | "id" | "name"
+    rowId: number
     color: "black" | "gray" | "white"
+    onChange?: (data: {
+        type: "product" | "id" | "name"
+        value: string
+        rowId: number
+    }) => void
+    validation?: (value: string) => boolean
     initialValue: string
 }
 
-const Input: React.FC<InputProps> = ({ type, color, initialValue }) => {
+const Input: React.FC<InputProps> = ({
+    type,
+    rowId,
+    color,
+    validation,
+    initialValue,
+    onChange,
+}) => {
     const [value, setValue] = React.useState(initialValue)
     const [focus, setFocus] = React.useState(false)
 
-   
-
     const onChangeHandler = (e: React.ChangeEvent<any>) => {
-        setValue(e.target.value)
+        const value = e.target.value
+        if (validation) {
+            validation(value) && setValue(e.target.value)
+        } else setValue(e.target.value)
     }
 
-    const onBlurHandler = (e: React.ChangeEvent<any>) => {
+    React.useEffect(() => {
+        if (focus === false && initialValue !== value) {
+            onChange && onChange({ type, rowId, value })
+        }
+    }, [focus, value])
+
+    const onBlurHandler = () => {
         setFocus(false)
     }
 
-    const onFocusHandler = (e: React.ChangeEvent<any>) => {
+    const onFocusHandler = () => {
         setFocus(true)
     }
 
