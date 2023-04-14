@@ -1,0 +1,29 @@
+.input {
+    width: 100%;
+    border: 0;
+    padding: 0;
+    padding-bottom: 1px;
+    outline: 0;
+    background-color: inherit;
+
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 1.2em;
+}
+
+.activeInput {
+    padding-bottom: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.blackText {
+    color: #000;
+}
+
+.grayText {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.whiteText {
+    color: #fff;
+}

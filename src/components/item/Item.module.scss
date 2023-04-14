@@ -1,0 +1,34 @@
+.item {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    transition: all ease 0.05s;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -15px;
+        width: 15px;
+        border-radius: 5px 0 0 5px;
+        height: 100%;
+        transition: all ease 0.05s;
+    }
+
+    &:hover {
+        background-color: #cacaca;
+        &::before {
+            background-color: #515151;
+        }
+    }
+}
+
+.activeItem {
+    background-color: rgba(81, 81, 81, 0.7);
+
+    &::before {
+        background-color: #515151;
+    }
+}
+
