@@ -1,5 +1,6 @@
 .rowContainer {
     display: flex;
+    padding: 5px 0;
 }
 
 .row {
@@ -7,6 +8,11 @@
 }
 
 .cancelSelectionButton {
+    height: 24px;
+    width: 24px;
+}
+
+.buttonContainer {
     height: 24px;
     width: 24px;
 }
