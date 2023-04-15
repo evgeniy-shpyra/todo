@@ -90,43 +90,6 @@ const tableSlice = createSlice({
     name: "tableSlice",
     initialState,
     reducers: {
-        onChangeRowValue: (
-            state,
-            action: PayloadAction<{
-                type: ColumnType
-                value: string
-                staticId: string
-            }>
-        ) => {
-            const index = state.items.findIndex(
-                (item) => item.staticId === action.payload.staticId
-            )
-
-            switch (action.payload.type) {
-                case "id":
-                    state.items[index].id = Number(action.payload.value)
-                    break
-                case "name":
-                    state.items[index].name = action.payload.value
-                    break
-                case "product":
-                    state.items[index].product = action.payload.value
-                    break
-            }
-        },
-
-        addItem: (state, action: PayloadAction<void>) => {
-            const newStaticId = nanoid()
-            state.items.unshift({
-                staticId: newStaticId,
-                id: null,
-                product: "XXXX-",
-                name: null,
-                isBlocked: false,
-                iconName: null,
-            })
-        },
-
         createNewElement: (state, action: PayloadAction<void>) => {
             state.newElement = { ...defaultValueForNewElement }
         },
@@ -166,6 +129,51 @@ const tableSlice = createSlice({
                 state.items.unshift(state.newElement)
                 state.newElement = null
             }
+        },
+
+        addCompanyIconToNewElement: (
+            state,
+            action: PayloadAction<{ iconName: string }>
+        ) => {
+            if (state.newElement)
+                state.newElement.iconName = action.payload.iconName
+        },
+
+        onChangeRowValue: (
+            state,
+            action: PayloadAction<{
+                type: ColumnType
+                value: string
+                staticId: string
+            }>
+        ) => {
+            const index = state.items.findIndex(
+                (item) => item.staticId === action.payload.staticId
+            )
+
+            switch (action.payload.type) {
+                case "id":
+                    state.items[index].id = Number(action.payload.value)
+                    break
+                case "name":
+                    state.items[index].name = action.payload.value
+                    break
+                case "product":
+                    state.items[index].product = action.payload.value
+                    break
+            }
+        },
+
+        addItem: (state, action: PayloadAction<void>) => {
+            const newStaticId = nanoid()
+            state.items.unshift({
+                staticId: newStaticId,
+                id: null,
+                product: "XXXX-",
+                name: null,
+                isBlocked: false,
+                iconName: null,
+            })
         },
 
         deleteItem: (state, action: PayloadAction<{ staticId: string }>) => {
@@ -264,6 +272,7 @@ export const {
     changeNewElement,
     deleteNewElement,
     saveNewElement,
+    addCompanyIconToNewElement,
 } = tableSlice.actions
 
 export default tableSlice.reducer

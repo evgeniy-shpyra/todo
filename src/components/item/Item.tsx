@@ -11,6 +11,7 @@ import {
     onChangeRowValue,
     changeNewElement,
     saveNewElement,
+    addCompanyIconToNewElement,
 } from "../../redux/features/tableSlice"
 import classNames from "classnames"
 import { ColumnType } from "../../types/TableType"
@@ -86,7 +87,9 @@ const Item: React.FC<ItemProps> = ({
     }
 
     const onChangeIcon = (iconName: string) => {
-        dispatch(changeCompanyIcon({ staticId, iconName }))
+        !isNew
+            ? dispatch(changeCompanyIcon({ staticId, iconName }))
+            : dispatch(addCompanyIconToNewElement({ iconName }))
     }
 
     const itemStyles = classNames(

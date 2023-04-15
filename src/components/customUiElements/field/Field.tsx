@@ -121,7 +121,6 @@ const Input: React.FC<InputProps> = ({
             )}
 
             <input
-                id={`${rowId}${type}`}
                 ref={inputRef}
                 type='text'
                 value={isOverflowed ? decorationValue : value}
@@ -134,12 +133,12 @@ const Input: React.FC<InputProps> = ({
             />
 
             {isIcon && (
-                <label htmlFor={`${rowId}${type}`}>
+                <div>
                     <SelectingIcons
                         onSelectIcon={onSelectIconHandler}
                         isVisible={isFocus}
                     />
-                </label>
+                </div>
             )}
         </div>
     )
