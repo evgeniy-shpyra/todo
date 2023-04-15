@@ -85,8 +85,8 @@ const initialState: IInitialState = {
     selectedItemsId: [],
 }
 
-const itemsSlice = createSlice({
-    name: "itemsSlice",
+const tableSlice = createSlice({
+    name: "tableSlice",
     initialState,
     reducers: {
         onChangeRowValue: (
@@ -135,8 +135,7 @@ const itemsSlice = createSlice({
             const iconIndex = state.companyIcons.findIndex(
                 (item) => item.name === state.items[index].iconName
             )
-            if (iconIndex >= 0)
-                state.companyIcons[iconIndex].isUsed = false 
+            if (iconIndex >= 0) state.companyIcons[iconIndex].isUsed = false
 
             state.items.splice(index, 1)
         },
@@ -219,6 +218,6 @@ export const {
     changeCompanyIcon,
     onChangeRowValue,
     cancelSelection,
-} = itemsSlice.actions
+} = tableSlice.actions
 
-export default itemsSlice.reducer
+export default tableSlice.reducer

@@ -1,15 +1,15 @@
 import React from "react"
-import styles from "./Selector.module.scss"
+import styles from "./SelectingFields.module.scss"
 import classNames from "classnames"
 import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks"
 import {
     cancelSelection,
     selectAll,
     toggleSelectItem,
-} from "../../../redux/features/itemsSlice"
+} from "../../../redux/features/tableSlice"
 import { IItem } from "../../../types/TableType"
 
-const Selector: React.FC = () => {
+const SelectingFields: React.FC = () => {
     const dispatch = useAppDispatch()
 
     const inputRef = React.useRef<HTMLInputElement>(null)
@@ -22,7 +22,7 @@ const Selector: React.FC = () => {
     const [isSelectedAllItems, setIsSelectedAllItems] = React.useState(false)
     const [inputValue, setInputValue] = React.useState("")
 
-    const { items, selectedItemsId } = useAppSelector((state) => state.items)
+    const { items, selectedItemsId } = useAppSelector((state) => state.table)
 
     React.useEffect(() => {
         if (items.length === selectedItemsId.length) {
@@ -35,7 +35,7 @@ const Selector: React.FC = () => {
                 const indexOfItem = items.findIndex(
                     (item) => item.staticId === staticId
                 )
-                return items[indexOfItem].name
+                if (indexOfItem >= 0) return items[indexOfItem].name
             })
             setInputValue(namesOfSelectedValue.join(", "))
         }
@@ -172,4 +172,4 @@ const Selector: React.FC = () => {
     )
 }
 
-export default Selector
+export default SelectingFields

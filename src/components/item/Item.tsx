@@ -1,8 +1,8 @@
 import React from "react"
 import styles from "./Item.module.scss"
 import RowContainer from "../rowContainer/RowContainer"
-import Switch from "../switch/Switch"
-import Field from "../field/Field"
+import Switch from "../customUiElements/switch/Switch"
+import Field from "../customUiElements/field/Field"
 import { useAppDispatch } from "../../hooks/reduxHooks"
 import {
     deleteItem,
@@ -11,7 +11,7 @@ import {
     toggleOpacityItem,
     changeCompanyIcon,
     onChangeRowValue,
-} from "../../redux/features/itemsSlice"
+} from "../../redux/features/tableSlice"
 import classNames from "classnames"
 import { ColumnType } from "../../types/TableType"
 import DeleteButton from "./deleteButton/DeleteButton"
@@ -63,9 +63,6 @@ const Item: React.FC<ItemProps> = ({
         dispatch(toggleBlockItem({ staticId, value }))
     }
 
-
-
- 
     const onSelectHandler = (e: React.MouseEvent<any>) => {
         if (e.target instanceof HTMLDivElement) {
             dispatch(toggleSelectItem({ staticId }))
@@ -124,10 +121,7 @@ const Item: React.FC<ItemProps> = ({
                 </div>
             </RowContainer>
 
-            <DeleteButton
-                disabled={!isBlocked}
-                staticId={staticId}
-            />
+            <DeleteButton disabled={!isBlocked} staticId={staticId} />
         </li>
     )
 }

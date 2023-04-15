@@ -4,7 +4,7 @@ import { useAppDispatch } from "../../../hooks/reduxHooks"
 import {
     deleteItem,
     toggleOpacityItem,
-} from "../../../redux/features/itemsSlice"
+} from "../../../redux/features/tableSlice"
 import classNames from "classnames"
 
 interface DeleteButtonProps {

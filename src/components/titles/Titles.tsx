@@ -3,7 +3,7 @@ import styles from "./Titles.module.scss"
 import AddIcon from "../icons/addIcon/AddIcon"
 import RowContainer from "../rowContainer/RowContainer"
 import { useAppDispatch } from "../../hooks/reduxHooks"
-import { addItem } from "../../redux/features/itemsSlice"
+import { addItem } from "../../redux/features/tableSlice"
 
 const Titles: React.FC = () => {
     const dispatch = useAppDispatch()

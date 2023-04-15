@@ -4,7 +4,7 @@ import Item from "../item/Item"
 import { useAppSelector } from "../../hooks/reduxHooks"
 
 const Items = () => {
-    const { items, selectedItemsId } = useAppSelector((state) => state.items)
+    const { items, selectedItemsId } = useAppSelector((state) => state.table)
 
     return (
         <ul className={styles.items}>

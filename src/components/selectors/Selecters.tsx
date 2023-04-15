@@ -4,15 +4,15 @@ import styles from "./Selectors.module.scss"
 import RowContainer from "../rowContainer/RowContainer"
 import DeleteIcon from "../icons/deleteIcon/DeleteIcon"
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks"
-import { cancelSelection } from "../../redux/features/itemsSlice"
-import Selector from "./selector/Selector"
+import { cancelSelection } from "../../redux/features/tableSlice"
+import SelectingFields from "../customUiElements/selectingFields/SelectingFields"
 import classNames from "classnames"
 
 const Selectors: React.FC = () => {
     const dispatch = useAppDispatch()
 
     const selectedItemsId = useAppSelector(
-        (state) => state.items.selectedItemsId
+        (state) => state.table.selectedItemsId
     )
 
     const onCancelSelectionHandler = () => {
@@ -29,7 +29,7 @@ const Selectors: React.FC = () => {
                 <div></div>
                 <div></div>
                 <div></div>
-                <Selector />
+                <SelectingFields />
             </RowContainer>
             <div className={buttonContainerStyles}>
                 <button

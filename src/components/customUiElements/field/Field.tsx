@@ -1,8 +1,8 @@
 import React from "react"
 import styles from "./Field.module.scss"
 import classnames from "classnames"
-import { ColumnType } from "../../types/TableType"
-import SelectIcons from "../selectIcons/SelectIcons"
+import { ColumnType } from "../../../types/TableType"
+import SelectingIcons from "../selectingIcons/SelectingIcons"
 
 interface InputProps {
     type: ColumnType
@@ -120,7 +120,7 @@ const Input: React.FC<InputProps> = ({
 
             {isIcon && (
                 <label htmlFor={`${rowId}${type}`}>
-                    <SelectIcons
+                    <SelectingIcons
                         onSelectIcon={onSelectIconHandler}
                         isVisible={isFocus}
                     />

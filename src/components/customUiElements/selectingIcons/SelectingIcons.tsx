@@ -1,18 +1,18 @@
 import React from "react"
-import styles from "./SelectIcons.module.scss"
+import styles from "./SelectingIcons.module.scss"
 import classNames from "classnames"
-import { useAppSelector } from "../../hooks/reduxHooks"
+import { useAppSelector } from "../../../hooks/reduxHooks"
 
 interface SelectIconsProps {
     isVisible: boolean
     onSelectIcon: (name: string) => void
 }
 
-const SelectIcons: React.FC<SelectIconsProps> = ({
+const SelectingIcons: React.FC<SelectIconsProps> = ({
     isVisible,
     onSelectIcon,
 }) => {
-    const companyIcons = useAppSelector((state) => state.items.companyIcons)
+    const companyIcons = useAppSelector((state) => state.table.companyIcons)
 
     const [isHover, setIsHover] = React.useState(false)
 
@@ -65,4 +65,4 @@ const SelectIcons: React.FC<SelectIconsProps> = ({
     )
 }
 
-export default SelectIcons
+export default SelectingIcons
