@@ -1,17 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { nanoid } from "nanoid"
-import { ColumnType } from "../../types/TableType"
-
-interface IItem {
-    staticId: string
-    id: number | null
-    product: string
-    name: string | null
-
-    isBlocked: boolean
-    isOpacity: boolean
-    iconName: string | null
-}
+import { ColumnType, IItem } from "../../types/TableType"
 
 const defaultItemValues: IItem = {
     staticId: nanoid(),

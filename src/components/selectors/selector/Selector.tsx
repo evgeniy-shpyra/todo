@@ -7,11 +7,18 @@ import {
     selectAll,
     toggleSelectItem,
 } from "../../../redux/features/itemsSlice"
+import { IItem } from "../../../types/TableType"
 
 const Selector: React.FC = () => {
     const dispatch = useAppDispatch()
 
+    const inputRef = React.useRef<HTMLInputElement>(null)
+    const containerRef = React.useRef<HTMLDivElement>(null)
     const [isActive, setIsActive] = React.useState(false)
+
+    const [filteredItems, setFilteredItems] = React.useState<IItem[] | null>(
+        null
+    )
     const [isSelectedAllItems, setIsSelectedAllItems] = React.useState(false)
     const [inputValue, setInputValue] = React.useState("")
 
@@ -36,10 +43,25 @@ const Selector: React.FC = () => {
 
     const onFocusHandler = () => {
         setIsActive(true)
+        inputRef.current && inputRef.current.focus()
     }
     const onBlurHandler = () => {
         setIsActive(false)
+        setFilteredItems(null)
+        inputRef.current && inputRef.current.blur()
     }
+
+    const handelClickOnWindow = (e: any) => {
+        const path = e.path || (e.composedPath && e.composedPath())
+        if (!path.includes(containerRef.current)) onBlurHandler()
+    }
+
+    React.useEffect(() => {
+        document.addEventListener("click", handelClickOnWindow)
+        return () => {
+            document.removeEventListener("click", handelClickOnWindow)
+        }
+    }, [])
 
     const onSelectAllItemsHandler = () => {
         dispatch(selectAll())
@@ -53,7 +75,32 @@ const Selector: React.FC = () => {
     const onChangeInputValueHandler = (
         e: React.ChangeEvent<HTMLInputElement>
     ) => {
-        setInputValue(e.target.value)
+        const value = e.target.value
+
+        setFilteredItems([])
+
+        setInputValue(value)
+
+        setFilteredItems(
+            items.filter((item) => {
+                const valueInArray = value.split(",")
+                console.log(valueInArray)
+                let isCoincides = false
+                valueInArray.forEach((inputItem) => {
+                    if (
+                        inputItem != "" &&
+                        item.name &&
+                        item.name
+                            .toLocaleLowerCase()
+                            .indexOf(inputItem.toLocaleLowerCase()) >= 0
+                    ) {
+                        isCoincides = true
+                    }
+                })
+
+                return isCoincides
+            })
+        )
     }
 
     const containerStyles = classNames(styles.container, {
@@ -62,11 +109,13 @@ const Selector: React.FC = () => {
 
     return (
         <div
+            ref={containerRef}
             className={containerStyles}
             onMouseOver={onFocusHandler}
-            onMouseOut={onBlurHandler}
+            // onMouseOut={onBlurHandler}
         >
             <input
+                ref={inputRef}
                 id='name-selector'
                 type='text'
                 value={inputValue}
@@ -75,31 +124,49 @@ const Selector: React.FC = () => {
             />
             <label className={styles.itemsContainer} htmlFor='name-selector'>
                 <ul className={styles.items}>
-                    <li
-                        onClick={onSelectAllItemsHandler}
-                        className={`${styles.item} ${
-                            isSelectedAllItems ? styles.selectedItem : ""
-                        }`}
-                    >
-                        Всё
-                    </li>
-                    {items &&
-                        items.map((item) => (
-                            <li
-                                onClick={() =>
-                                    onSelectItemHandler(item.staticId)
-                                }
-                                key={item.staticId}
-                                className={`${styles.item} ${
-                                    selectedItemsId.includes(item.staticId) &&
-                                    !isSelectedAllItems
-                                        ? styles.selectedItem
-                                        : ""
-                                }`}
-                            >
-                                {item.name}
-                            </li>
-                        ))}
+                    {!filteredItems && (
+                        <li
+                            onClick={onSelectAllItemsHandler}
+                            className={`${styles.item} ${
+                                isSelectedAllItems ? styles.selectedItem : ""
+                            }`}
+                        >
+                            Всё
+                        </li>
+                    )}
+                    {filteredItems
+                        ? filteredItems.map((item) => (
+                              <li
+                                  onClick={() =>
+                                      onSelectItemHandler(item.staticId)
+                                  }
+                                  key={item.staticId}
+                                  className={`${styles.item} ${
+                                      selectedItemsId.includes(item.staticId) &&
+                                      !isSelectedAllItems
+                                          ? styles.selectedItem
+                                          : ""
+                                  }`}
+                              >
+                                  {item.name}
+                              </li>
+                          ))
+                        : items.map((item) => (
+                              <li
+                                  onClick={() =>
+                                      onSelectItemHandler(item.staticId)
+                                  }
+                                  key={item.staticId}
+                                  className={`${styles.item} ${
+                                      selectedItemsId.includes(item.staticId) &&
+                                      !isSelectedAllItems
+                                          ? styles.selectedItem
+                                          : ""
+                                  }`}
+                              >
+                                  {item.name}
+                              </li>
+                          ))}
                 </ul>
             </label>
         </div>
