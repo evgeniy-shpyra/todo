@@ -3,6 +3,7 @@ import styles from "./DeleteButton.module.scss"
 import { useAppDispatch } from "../../../hooks/reduxHooks"
 import {
     deleteItem,
+    deleteNewElement,
     toggleOpacityItem,
 } from "../../../redux/features/tableSlice"
 import classNames from "classnames"
@@ -10,9 +11,14 @@ import classNames from "classnames"
 interface DeleteButtonProps {
     disabled: boolean
     staticId: string
+    isNew: boolean
 }
 
-const DeleteButton: React.FC<DeleteButtonProps> = ({ disabled, staticId }) => {
+const DeleteButton: React.FC<DeleteButtonProps> = ({
+    disabled,
+    staticId,
+    isNew,
+}) => {
     const dispatch = useAppDispatch()
 
     const [isVisibleInfoBlock, setIsVisibleInfoBlock] = React.useState(false)
@@ -28,7 +34,9 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ disabled, staticId }) => {
     }
 
     const onDeleteHandler = () => {
-        dispatch(deleteItem({ staticId }))
+        isNew
+            ? dispatch(deleteNewElement())
+            : dispatch(deleteItem({ staticId }))
     }
 
     const infoBlockStyles = classNames(styles.infoContainer, {

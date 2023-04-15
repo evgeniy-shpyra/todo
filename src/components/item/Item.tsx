@@ -5,12 +5,12 @@ import Switch from "../customUiElements/switch/Switch"
 import Field from "../customUiElements/field/Field"
 import { useAppDispatch } from "../../hooks/reduxHooks"
 import {
-    deleteItem,
     toggleSelectItem,
     toggleBlockItem,
-    toggleOpacityItem,
     changeCompanyIcon,
     onChangeRowValue,
+    changeNewElement,
+    saveNewElement,
 } from "../../redux/features/tableSlice"
 import classNames from "classnames"
 import { ColumnType } from "../../types/TableType"
@@ -31,6 +31,7 @@ interface ItemProps {
     isOpacity: boolean
     isSelected: boolean
     iconName?: string | null
+    isNew?: boolean
 }
 
 const Item: React.FC<ItemProps> = ({
@@ -42,25 +43,40 @@ const Item: React.FC<ItemProps> = ({
     isSelected,
     staticId,
     iconName,
+    isNew = false,
 }) => {
     const dispatch = useAppDispatch()
+
+    const [typeOfColumnInFocus, setTypeOfColumnInFocus] =
+        React.useState<ColumnType | null>(isNew ? "id" : null)
 
     const onChangeRowValueHandler = (data: {
         type: ColumnType
         value: string
         rowId: string
     }) => {
-        dispatch(
-            onChangeRowValue({
-                type: data.type,
-                value: data.value,
-                staticId: data.rowId,
-            })
-        )
+        if (isNew) {
+            dispatch(
+                changeNewElement({
+                    type: data.type,
+                    value: data.value,
+                })
+            )
+            if (typeOfColumnInFocus === "name") dispatch(saveNewElement())
+
+            setTypeOfColumnInFocus("name")
+        } else
+            dispatch(
+                onChangeRowValue({
+                    type: data.type,
+                    value: data.value,
+                    staticId: data.rowId,
+                })
+            )
     }
 
     const toggleIsBlocked = (value: boolean) => {
-        dispatch(toggleBlockItem({ staticId, value }))
+        !isNew && dispatch(toggleBlockItem({ staticId, value }))
     }
 
     const onSelectHandler = (e: React.MouseEvent<any>) => {
@@ -104,6 +120,7 @@ const Item: React.FC<ItemProps> = ({
                         validation={idValidation}
                         initialValue={id ? String(id) : ""}
                         onChange={onChangeRowValueHandler}
+                        inFocus={typeOfColumnInFocus === "id"}
                     />
                 </div>
                 <div>
@@ -117,11 +134,15 @@ const Item: React.FC<ItemProps> = ({
                         iconName={iconName}
                         onChangeIcon={onChangeIcon}
                         isIcon
+                        inFocus={typeOfColumnInFocus === "name"}
                     />
                 </div>
             </RowContainer>
-
-            <DeleteButton disabled={!isBlocked} staticId={staticId} />
+            <DeleteButton
+                isNew={isNew}
+                disabled={!isBlocked}
+                staticId={staticId}
+            />
         </li>
     )
 }

@@ -120,6 +120,7 @@ const SelectingFields: React.FC = () => {
                 value={inputValue}
                 onChange={onChangeInputValueHandler}
                 className={styles.input}
+                autoComplete='off'
             />
             <label className={styles.itemsContainer} htmlFor='name-selector'>
                 <ul className={styles.items}>

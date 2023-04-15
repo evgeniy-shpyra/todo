@@ -3,7 +3,7 @@ import styles from "./Titles.module.scss"
 import AddIcon from "../icons/addIcon/AddIcon"
 import RowContainer from "../rowContainer/RowContainer"
 import { useAppDispatch } from "../../hooks/reduxHooks"
-import { addItem } from "../../redux/features/tableSlice"
+import { addItem, createNewElement } from "../../redux/features/tableSlice"
 
 const Titles: React.FC = () => {
     const dispatch = useAppDispatch()
@@ -11,7 +11,7 @@ const Titles: React.FC = () => {
     const buttonRef = React.useRef<HTMLButtonElement>(null)
 
     const onAddItemHandler = () => {
-        dispatch(addItem())
+        dispatch(createNewElement())
         if (buttonRef) {
             const nextElement = buttonRef.current?.nextElementSibling
             if (nextElement) {

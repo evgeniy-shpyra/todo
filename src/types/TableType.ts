@@ -5,8 +5,6 @@ export interface IItem {
     id: number | null
     product: string
     name: string | null
-
     isBlocked: boolean
-    isOpacity: boolean
     iconName: string | null
 }

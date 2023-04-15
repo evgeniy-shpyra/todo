@@ -2,10 +2,21 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { nanoid } from "nanoid"
 import { ColumnType, IItem } from "../../types/TableType"
 
+const defaultValueForNewElement: IItem = {
+    staticId: nanoid(),
+    id: null,
+    product: "XXXX-",
+    name: null,
+    isBlocked: false,
+    iconName: null,
+}
+
 interface IInitialState {
     items: IItem[]
     selectedItemsId: string[]
     companyIcons: { name: string; isUsed: boolean }[]
+    idOfOpacityElement: string | null
+    newElement: IItem | null
 }
 
 const initialState: IInitialState = {
@@ -15,9 +26,7 @@ const initialState: IInitialState = {
             id: 1,
             product: "XXXX-",
             name: "Синий",
-            isOpacity: false,
             isBlocked: false,
-
             iconName: "delivery.svg",
         },
         {
@@ -25,9 +34,7 @@ const initialState: IInitialState = {
             id: 75,
             product: "XXXX-",
             name: "41-й размерр...",
-            isOpacity: false,
             isBlocked: false,
-
             iconName: "ua.svg",
         },
         {
@@ -35,9 +42,7 @@ const initialState: IInitialState = {
             id: 7,
             product: "XXXX-",
             name: "8Gb",
-            isOpacity: false,
             isBlocked: false,
-
             iconName: "shop-logistics.svg",
         },
         {
@@ -45,9 +50,7 @@ const initialState: IInitialState = {
             id: 215,
             product: "XXXX-",
             name: "Silver",
-            isOpacity: false,
             isBlocked: false,
-
             iconName: "rozetka.svg",
         },
         {
@@ -55,9 +58,7 @@ const initialState: IInitialState = {
             id: 75,
             product: "XXXX-",
             name: "Rose gold",
-            isOpacity: false,
             isBlocked: false,
-
             iconName: "flag.svg",
         },
         {
@@ -65,9 +66,7 @@ const initialState: IInitialState = {
             id: 45,
             product: "XXXX-",
             name: "32Gb",
-            isOpacity: false,
             isBlocked: false,
-
             iconName: "amazon.svg",
         },
     ],
@@ -83,6 +82,8 @@ const initialState: IInitialState = {
         { name: "ups.svg", isUsed: false },
     ],
     selectedItemsId: [],
+    idOfOpacityElement: null,
+    newElement: null,
 }
 
 const tableSlice = createSlice({
@@ -121,10 +122,50 @@ const tableSlice = createSlice({
                 id: null,
                 product: "XXXX-",
                 name: null,
-                isOpacity: false,
                 isBlocked: false,
                 iconName: null,
             })
+        },
+
+        createNewElement: (state, action: PayloadAction<void>) => {
+            state.newElement = { ...defaultValueForNewElement }
+        },
+
+        changeNewElement: (
+            state,
+            action: PayloadAction<{
+                type: ColumnType
+                value: string
+            }>
+        ) => {
+            if (state.newElement) {
+                switch (action.payload.type) {
+                    case "id":
+                        state.newElement.id = Number(action.payload.value)
+                        break
+                    case "name":
+                        state.newElement.name = action.payload.value
+                        break
+                    case "product":
+                        state.newElement.product = action.payload.value
+                        break
+                }
+            }
+        },
+
+        deleteNewElement: (state, action: PayloadAction<void>) => {
+            state.newElement = null
+        },
+
+        saveNewElement: (state, action: PayloadAction<void>) => {
+            if (
+                state.newElement &&
+                state.newElement.id &&
+                state.newElement.name
+            ) {
+                state.items.unshift(state.newElement)
+                state.newElement = null
+            }
         },
 
         deleteItem: (state, action: PayloadAction<{ staticId: string }>) => {
@@ -176,10 +217,11 @@ const tableSlice = createSlice({
             state,
             action: PayloadAction<{ staticId: string; value: boolean }>
         ) => {
-            const index = state.items.findIndex(
-                (item) => item.staticId === action.payload.staticId
-            )
-            state.items[index].isOpacity = action.payload.value
+            if (action.payload.value) {
+                state.idOfOpacityElement = action.payload.staticId
+            } else {
+                state.idOfOpacityElement = null
+            }
         },
 
         toggleSelectItem: (
@@ -218,6 +260,10 @@ export const {
     changeCompanyIcon,
     onChangeRowValue,
     cancelSelection,
+    createNewElement,
+    changeNewElement,
+    deleteNewElement,
+    saveNewElement,
 } = tableSlice.actions
 
 export default tableSlice.reducer

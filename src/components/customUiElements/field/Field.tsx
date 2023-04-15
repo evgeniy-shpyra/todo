@@ -20,6 +20,7 @@ interface InputProps {
     }) => void
     validation?: (value: string) => boolean
     initialValue: string
+    inFocus?: boolean
 }
 
 const Input: React.FC<InputProps> = ({
@@ -34,12 +35,17 @@ const Input: React.FC<InputProps> = ({
     onChangeIcon,
     iconName,
     isIcon = false,
+    inFocus = false,
 }) => {
     const [value, setValue] = React.useState(initialValue)
     const [decorationValue, setDecorationValue] = React.useState(initialValue)
     const [isFocus, setIsFocus] = React.useState(false)
     const inputRef = React.useRef<HTMLInputElement>(null)
     const [isOverflowed, setIsOverflowed] = React.useState(false)
+
+    React.useEffect(() => {
+        if (inFocus) inputRef.current?.focus()
+    }, [inFocus, inputRef])
 
     React.useEffect(() => {
         if (inputRef.current) {
@@ -83,6 +89,15 @@ const Input: React.FC<InputProps> = ({
         if (onChangeIcon) onChangeIcon(name)
     }
 
+    const onPressDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            onChange && onChange({ type, rowId, value })
+            inputRef.current?.blur()
+            if (type === "id") {
+            }
+        }
+    }
+
     const inputStyles = classnames(
         styles.input,
         {
@@ -115,8 +130,8 @@ const Input: React.FC<InputProps> = ({
                 onBlur={onBlurHandler}
                 onFocus={onFocusHandler}
                 onChange={onChangeHandler}
+                onKeyDown={onPressDownHandler}
             />
-            {/* {isOverflowed && <span className={ellipsisStyles}>...</span>} */}
 
             {isIcon && (
                 <label htmlFor={`${rowId}${type}`}>
