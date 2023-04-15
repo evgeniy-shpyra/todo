@@ -1,24 +1,48 @@
 import React from "react"
 import styles from "./Titles.module.scss"
-import AddIcon from "../icons/AddIcon"
+import AddIcon from "../icons/addIcon/AddIcon"
 import RowContainer from "../rowContainer/RowContainer"
+import { useAppDispatch } from "../../hooks/reduxHooks"
+import { addItem } from "../../redux/features/itemsSlice"
 
-const Header = () => {
+const Titles: React.FC = () => {
+    const dispatch = useAppDispatch()
+
+    const buttonRef = React.useRef<HTMLButtonElement>(null)
+
+    const onAddItemHandler = () => {
+        dispatch(addItem())
+        if (buttonRef) {
+            const nextElement = buttonRef.current?.nextElementSibling
+            if (nextElement) {
+                const nextNextElement: any = nextElement.nextElementSibling
+                nextNextElement && nextNextElement.focus()
+            }
+        }
+    }
+
     return (
-        <RowContainer>
-            <div className={styles.element}>Статус</div>
-            <div className={styles.element}>Товар</div>
-            <div className={styles.element}>ID</div>
-            <div className={styles.element}>Название</div>
-            <div className={styles.element}>
+        <div className={styles.titlesContainer}>
+            <RowContainer customStyles={styles.row}>
+                <div className={styles.tableElement}>Статус</div>
+                <div className={styles.tableElement}>Товар</div>
+                <div className={styles.tableElement}>ID</div>
+                <div className={styles.tableElement}>Название</div>
+            </RowContainer>
+
+            <button
+                ref={buttonRef}
+                onClick={onAddItemHandler}
+                className={styles.button}
+            >
                 <AddIcon
                     size='24px'
                     color='rgba(0, 0, 0, 0.65)'
                     hoverColor='rgba(0, 0, 0, 0.8)'
                 />
-            </div>
-        </RowContainer>
+            </button>
+        </div>
     )
 }
 
-export default Header
+export default Titles

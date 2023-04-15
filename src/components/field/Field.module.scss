@@ -1,7 +1,13 @@
+.container {
+    position: relative;
+    display: flex;
+}
+
 .input {
     width: 100%;
     border: 0;
     padding: 0;
+
     padding-bottom: 1px;
     outline: 0;
     background-color: inherit;
@@ -26,4 +32,15 @@
 
 .whiteText {
     color: #fff;
+
+    .activeInput {
+        padding-bottom: 0;
+        border-bottom: 1px solid #fff;
+    }
+}
+
+.companyIcon {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
 }

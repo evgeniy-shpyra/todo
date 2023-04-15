@@ -1,7 +1,14 @@
+.itemContainer {
+    display: flex;
+    align-items: center;
+    padding: 3px 0;
+}
+
 .item {
     position: relative;
     margin: 0;
     padding: 0;
+
     list-style: none;
     transition: all ease 0.05s;
 
@@ -10,9 +17,11 @@
         position: absolute;
         top: 0;
         left: -15px;
+
         width: 15px;
-        border-radius: 5px 0 0 5px;
         height: 100%;
+
+        border-radius: 5px 0 0 5px;
         transition: all ease 0.05s;
     }
 
@@ -24,9 +33,16 @@
     }
 }
 
-.activeItem {
+.opacity {
+    opacity: 0.5;
+}
+
+.selected {
     background-color: rgba(81, 81, 81, 0.7);
 
+    &:hover {
+        background-color: rgba(81, 81, 81, 0.7);
+    }
     &::before {
         background-color: #515151;
     }

@@ -1,28 +1,25 @@
 import React from "react"
 import styles from "./Items.module.scss"
 import Item from "../item/Item"
-
-const data = [
-    { id: 1, status: true, product: "", name: "Синий" },
-    { id: 2, status: true, product: "XXXX-", name: "Синий" },
-    { id: 3, status: true, product: "XXXX-", name: "Синий" },
-    { id: 4, status: true, product: "XXXX-", name: "Синий" },
-    { id: 5, status: true, product: "XXXX-", name: "Синий" },
-    { id: 6, status: true, product: "XXXX-", name: "Синий" },
-    { id: 7, status: true, product: "XXXX-", name: "Синий" },
-]
+import { useAppSelector } from "../../hooks/reduxHooks"
 
 const Items = () => {
+    const { items, selectedItemsId } = useAppSelector((state) => state.items)
+
     return (
         <ul className={styles.items}>
-            {data &&
-                data.map((item) => (
+            {items &&
+                items.map((item) => (
                     <Item
-                        key={item.id}
+                        key={item.staticId}
                         id={item.id}
-                        name={item.name}
+                        staticId={item.staticId}
+                        name={item.name ? item.name : ""}
                         product={item.product}
-                        stats={item.status}
+                        isBlocked={!item.isBlocked}
+                        isOpacity={item.isOpacity}
+                        isSelected={selectedItemsId.includes(item.staticId)}
+                        iconName={item.iconName}
                     />
                 ))}
         </ul>

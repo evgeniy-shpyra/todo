@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit"
-import { useDispatch } from "react-redux"
+import itemsSlice from "./features/itemsSlice"
 
 const store = configureStore({
-    reducer: {},
+    reducer: {
+        items: itemsSlice,
+    },
 })
 
 export type RootState = ReturnType<typeof store.getState>

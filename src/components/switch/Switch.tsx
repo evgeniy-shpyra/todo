@@ -3,20 +3,19 @@ import styles from "./Switch.module.scss"
 
 interface SwitchProps {
     disabled?: boolean
-    initial?: boolean
-    onChange?: (state: boolean) => void
+    value?: boolean
+    onToggle?: (value: boolean) => void
 }
 
 const Switch: React.FC<SwitchProps> = ({
     disabled = false,
-    onChange,
-    initial = false,
+    onToggle,
+    value,
 }) => {
-    const [isEnabled, setIsEnabled] = React.useState(initial)
-
-    const toggleSwitch = () => {
-        setIsEnabled((prev) => !prev)
-        if (onChange) onChange(isEnabled)
+    const toggleSwitch = (e: React.ChangeEvent<any>) => {
+        if (onToggle) {
+            onToggle(e.target.checked)
+        }
     }
 
     return (
@@ -26,13 +25,13 @@ const Switch: React.FC<SwitchProps> = ({
                 className={styles.checkbox}
                 id='my-switch'
                 type='checkbox'
-                checked={isEnabled}
+                checked={value}
                 onChange={toggleSwitch}
             />
 
             <span
                 className={`${styles.circle} ${
-                    isEnabled ? styles.circleActive : ""
+                    value ? styles.circleActive : ""
                 }`}
             />
         </label>
