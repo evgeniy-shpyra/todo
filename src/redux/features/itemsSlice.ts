@@ -8,7 +8,6 @@ interface IItem {
     product: string
     name: string | null
 
-    isSelected: boolean
     isBlocked: boolean
     isOpacity: boolean
     iconName: string | null
@@ -21,7 +20,6 @@ const defaultItemValues: IItem = {
     product: "XXXX-",
     name: null,
     isOpacity: false,
-    isSelected: false,
     isBlocked: false,
     iconName: null,
 }
@@ -41,7 +39,7 @@ const initialState: IInitialState = {
             name: "Синий",
             isOpacity: false,
             isBlocked: false,
-            isSelected: false,
+
             iconName: "delivery.svg",
         },
         {
@@ -51,7 +49,7 @@ const initialState: IInitialState = {
             name: "41-й размерр...",
             isOpacity: false,
             isBlocked: false,
-            isSelected: false,
+
             iconName: "ua.svg",
         },
         {
@@ -61,7 +59,7 @@ const initialState: IInitialState = {
             name: "Rose gold",
             isOpacity: false,
             isBlocked: false,
-            isSelected: false,
+
             iconName: "shop-logistics.svg",
         },
     ],
@@ -113,7 +111,6 @@ const itemsSlice = createSlice({
                 product: "XXXX-",
                 name: null,
                 isOpacity: false,
-                isSelected: false,
                 isBlocked: false,
                 iconName: null,
             })
@@ -149,20 +146,6 @@ const itemsSlice = createSlice({
             state.items[itemIndex].iconName = action.payload.iconName
         },
 
-        toggleSelectItem: (
-            state,
-            action: PayloadAction<{ staticId: string }>
-        ) => {
-            const indexOfExisting = state.selectedItemsId.indexOf(
-                action.payload.staticId
-            )
-            if (indexOfExisting >= 0) {
-                state.selectedItemsId.splice(indexOfExisting, 1)
-            } else {
-                state.selectedItemsId.push(action.payload.staticId)
-            }
-        },
-
         toggleBlockItem: (
             state,
             action: PayloadAction<{ staticId: string; value: boolean }>
@@ -181,6 +164,27 @@ const itemsSlice = createSlice({
             )
             state.items[index].isOpacity = action.payload.value
         },
+
+        toggleSelectItem: (
+            state,
+            action: PayloadAction<{ staticId: string }>
+        ) => {
+            const indexOfExisting = state.selectedItemsId.indexOf(
+                action.payload.staticId
+            )
+            if (indexOfExisting >= 0) {
+                state.selectedItemsId.splice(indexOfExisting, 1)
+            } else {
+                state.selectedItemsId.push(action.payload.staticId)
+            }
+        },
+
+        selectAll: (state, action: PayloadAction<void>) => {
+            const allStaticId = state.items.map((item) => item.staticId)
+
+            state.selectedItemsId = allStaticId
+        },
+
         cancelSelection: (state, action: PayloadAction<void>) => {
             state.selectedItemsId = []
         },
@@ -190,6 +194,7 @@ const itemsSlice = createSlice({
 export const {
     addItem,
     deleteItem,
+    selectAll,
     toggleSelectItem,
     toggleBlockItem,
     toggleOpacityItem,

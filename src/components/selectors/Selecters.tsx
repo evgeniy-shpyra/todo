@@ -26,9 +26,9 @@ const Selectors: React.FC = () => {
     return (
         <div className={styles.rowContainer}>
             <RowContainer customStyles={styles.row}>
-                <Selector />
-                <Selector />
-                <Selector />
+                <div></div>
+                <div></div>
+                <div></div>
                 <Selector />
             </RowContainer>
             <div className={buttonContainerStyles}>

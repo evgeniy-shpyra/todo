@@ -32,13 +32,82 @@
     outline: 0;
     background-color: inherit;
     font-weight: 300;
-    font-size: 20px;
+    font-size: 15px;
     line-height: 1.2em;
     color: #000;
+}
+
+.itemsContainer {
+    position: absolute;
+    bottom: -150px;
+    left: 0;
+    z-index: 15;
+
+    width: 100%;
+    height: 150px;
+
+    background-color: #fff;
+    box-shadow: 4px 4px 9px rgba(0, 0, 0, 0.15);
+    transition: all ease 0.1s;
+
+    opacity: 0;
+    user-select: none;
+    pointer-events: none;
+}
+
+.items {
+    margin: 0;
+    padding: 5px;
+    list-style: none;
+
+    padding: 10px;
+
+    overflow-y: scroll;
+}
+
+.item {
+    position: relative;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    font-size: 16px;
+    font-weight: 300;
+    color: #000000;
+
+    cursor: pointer;
+
+    transition: all ease 0.1s;
+
+    &:hover {
+        opacity: 0.5;
+    }
+    &::before {
+        content: "";
+        position: absolute;
+        top: calc(50% - 3px);
+        left: 0;
+
+        width: 6px;
+        height: 6px;
+        border-radius: 100%;
+
+        background-color: inherit;
+    }
+}
+
+.selectedItem {
+    &::before {
+        background-color: #515151;
+    }
 }
 
 .active {
     &::after {
         transform: rotate(180deg);
+    }
+
+    & > label {
+        opacity: 1;
+        user-select: auto;
+        pointer-events: all;
     }
 }
