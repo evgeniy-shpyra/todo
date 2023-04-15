@@ -2,17 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { nanoid } from "nanoid"
 import { ColumnType, IItem } from "../../types/TableType"
 
-const defaultItemValues: IItem = {
-    staticId: nanoid(),
-    id: null,
-
-    product: "XXXX-",
-    name: null,
-    isOpacity: false,
-    isBlocked: false,
-    iconName: null,
-}
-
 interface IInitialState {
     items: IItem[]
     selectedItemsId: string[]
@@ -43,22 +32,55 @@ const initialState: IInitialState = {
         },
         {
             staticId: nanoid(),
+            id: 7,
+            product: "XXXX-",
+            name: "8Gb",
+            isOpacity: false,
+            isBlocked: false,
+
+            iconName: "shop-logistics.svg",
+        },
+        {
+            staticId: nanoid(),
+            id: 215,
+            product: "XXXX-",
+            name: "Silver",
+            isOpacity: false,
+            isBlocked: false,
+
+            iconName: "rozetka.svg",
+        },
+        {
+            staticId: nanoid(),
             id: 75,
             product: "XXXX-",
             name: "Rose gold",
             isOpacity: false,
             isBlocked: false,
 
-            iconName: "shop-logistics.svg",
+            iconName: "flag.svg",
+        },
+        {
+            staticId: nanoid(),
+            id: 45,
+            product: "XXXX-",
+            name: "32Gb",
+            isOpacity: false,
+            isBlocked: false,
+
+            iconName: "amazon.svg",
         },
     ],
     companyIcons: [
-        { name: "amazon.svg", isUsed: false },
+        { name: "amazon.svg", isUsed: true },
         { name: "delivery.svg", isUsed: true },
-        { name: "flag.svg", isUsed: false },
+        { name: "flag.svg", isUsed: true },
         { name: "kyivstar.svg", isUsed: false },
         { name: "shop-logistics.svg", isUsed: true },
+        { name: "fotos.svg", isUsed: false },
+        { name: "rozetka.svg", isUsed: true },
         { name: "ua.svg", isUsed: true },
+        { name: "ups.svg", isUsed: false },
     ],
     selectedItemsId: [],
 }
@@ -109,6 +131,13 @@ const itemsSlice = createSlice({
             const index = state.items.findIndex(
                 (item) => item.staticId === action.payload.staticId
             )
+
+            const iconIndex = state.companyIcons.findIndex(
+                (item) => item.name === state.items[index].iconName
+            )
+            if (iconIndex >= 0)
+                state.companyIcons[iconIndex].isUsed = false 
+
             state.items.splice(index, 1)
         },
 

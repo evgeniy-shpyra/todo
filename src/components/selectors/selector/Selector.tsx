@@ -112,7 +112,6 @@ const Selector: React.FC = () => {
             ref={containerRef}
             className={containerStyles}
             onMouseOver={onFocusHandler}
-            // onMouseOut={onBlurHandler}
         >
             <input
                 ref={inputRef}
