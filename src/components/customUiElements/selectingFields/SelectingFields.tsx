@@ -84,7 +84,7 @@ const SelectingFields: React.FC = () => {
         setFilteredItems(
             items.filter((item) => {
                 const valueInArray = value.split(",")
-                console.log(valueInArray)
+
                 let isCoincides = false
                 valueInArray.forEach((inputItem) => {
                     if (

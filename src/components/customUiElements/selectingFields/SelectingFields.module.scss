@@ -17,6 +17,8 @@
 
         transition: all ease 0.2s;
     }
+
+ 
 }
 
 .input {
@@ -27,6 +29,13 @@
     border: 0;
     padding: 0;
     padding-right: 20px;
+
+    display: -webkit-box;
+    max-width: 170px;
+    -webkit-line-clamp: 1; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     border-bottom: 1px solid #000;
     outline: 0;
@@ -80,6 +89,13 @@
     cursor: pointer;
 
     transition: all ease 0.1s;
+
+    display: -webkit-box;
+    max-width: 170px;
+    -webkit-line-clamp: 1; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     &:hover {
         opacity: 0.5;

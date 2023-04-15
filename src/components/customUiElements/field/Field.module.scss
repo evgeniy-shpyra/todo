@@ -8,6 +8,13 @@
     border: 0;
     padding: 0;
 
+    display: -webkit-box;
+    max-width: 140px;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
     padding-bottom: 1px;
     outline: 0;
     background-color: inherit;

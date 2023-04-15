@@ -33,7 +33,7 @@ const initialState: IInitialState = {
             staticId: nanoid(),
             id: 75,
             product: "XXXX-",
-            name: "41-й размерр...",
+            name: "41-й размер",
             isBlocked: false,
             iconName: "ua.svg",
         },

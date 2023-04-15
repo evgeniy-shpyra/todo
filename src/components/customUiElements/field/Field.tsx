@@ -38,29 +38,15 @@ const Input: React.FC<InputProps> = ({
     inFocus = false,
 }) => {
     const [value, setValue] = React.useState(initialValue)
-    const [decorationValue, setDecorationValue] = React.useState(initialValue)
+    
     const [isFocus, setIsFocus] = React.useState(false)
     const inputRef = React.useRef<HTMLInputElement>(null)
-    const [isOverflowed, setIsOverflowed] = React.useState(false)
+    
 
     React.useEffect(() => {
         if (inFocus) inputRef.current?.focus()
     }, [inFocus, inputRef])
 
-    React.useEffect(() => {
-        if (inputRef.current) {
-            const input: HTMLInputElement = inputRef.current
-
-            if (input.scrollWidth > input.clientWidth && !isFocus) {
-                setIsOverflowed(true)
-                setDecorationValue(
-                    value.slice(0, input.clientWidth / 15) + "..."
-                )
-            } else {
-                setIsOverflowed(false)
-            }
-        }
-    }, [value, isFocus])
 
     React.useEffect(() => {
         if (isFocus === false && initialValue !== value) {
@@ -122,8 +108,8 @@ const Input: React.FC<InputProps> = ({
 
             <input
                 ref={inputRef}
-                type='text'
-                value={isOverflowed ? decorationValue : value}
+                type='text' 
+                value={value}
                 disabled={disabled}
                 className={inputStyles}
                 onBlur={onBlurHandler}
