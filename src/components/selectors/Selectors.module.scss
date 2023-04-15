@@ -15,4 +15,11 @@
 .buttonContainer {
     height: 24px;
     width: 24px;
+    transition: all solid 0.2s;
+}
+
+.hiddenClearButton {
+    opacity: 0;
+    user-select: none;
+    pointer-events: none;
 }
