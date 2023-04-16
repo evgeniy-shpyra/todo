@@ -186,6 +186,13 @@ const tableSlice = createSlice({
             )
             if (iconIndex >= 0) state.companyIcons[iconIndex].isUsed = false
 
+            const selectedIndex = state.selectedItemsId.indexOf(
+                action.payload.staticId
+            )
+
+            if (selectedIndex >= 0)
+                state.selectedItemsId.splice(selectedIndex, 1)
+
             state.items.splice(index, 1)
         },
 
