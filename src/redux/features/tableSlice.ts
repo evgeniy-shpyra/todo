@@ -3,7 +3,7 @@ import { nanoid } from "nanoid"
 import { ColumnType, IItem } from "../../types/TableType"
 
 const defaultValueForNewElement: IItem = {
-    staticId: nanoid(),
+    staticId: "",
     id: null,
     product: "XXXX-",
     name: null,
@@ -91,7 +91,10 @@ const tableSlice = createSlice({
     initialState,
     reducers: {
         createNewElement: (state, action: PayloadAction<void>) => {
-            state.newElement = { ...defaultValueForNewElement }
+            state.newElement = {
+                ...defaultValueForNewElement,
+                staticId: nanoid(),
+            }
         },
 
         changeNewElement: (
@@ -101,6 +104,8 @@ const tableSlice = createSlice({
                 value: string
             }>
         ) => {
+            console.log(action.payload)
+
             if (state.newElement) {
                 switch (action.payload.type) {
                     case "id":
